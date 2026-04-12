@@ -9,22 +9,21 @@ import { BookUploadFormValues } from '@/types';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { ACCEPTED_PDF_TYPES, ACCEPTED_IMAGE_TYPES, DEFAULT_VOICE } from '@/lib/constants';
+import { ACCEPTED_PDF_TYPES, ACCEPTED_IMAGE_TYPES } from '@/lib/constants';
 import FileUploader from './FileUploader';
 import VoiceSelector from './VoiceSelector';
 import LoadingOverlay from './LoadingOverlay';
-import {useAuth, useUser} from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { toast } from 'sonner';
-import {checkBookExists, createBook, saveBookSegments} from "@/lib/actions/book.actions";
-import {useRouter} from "next/navigation";
-import {parsePDFFile} from "@/lib/utils";
-import {upload} from "@vercel/blob/client";
-import { uploadToBlob } from "@/lib/actions/book.actions";
+import { checkBookExists, createBook, saveBookSegments, uploadToBlob } from "@/lib/actions/book.actions";
+import { useRouter } from "next/navigation";
+import { parsePDFFile } from "@/lib/utils";
+
 const UploadForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const { userId } = useAuth();
-    const router = useRouter()
+    const router = useRouter();
 
     useEffect(() => {
         setIsMounted(true);
@@ -42,21 +41,19 @@ const UploadForm = () => {
     });
 
     const onSubmit = async (data: BookUploadFormValues) => {
-        if(!userId) {
-           return toast.error("Please login to upload books");
+        if (!userId) {
+            return toast.error("Please login to upload books");
         }
 
         setIsSubmitting(true);
 
-        // PostHog -> Track Book Uploads...
-
         try {
             const existsCheck = await checkBookExists(data.title);
 
-            if(existsCheck.exists && existsCheck.book) {
+            if (existsCheck.exists && existsCheck.book) {
                 toast.info("Book with same title already exists.");
-                form.reset()
-                router.push(`/books/${existsCheck.book.slug}`)
+                form.reset();
+                router.push(`/books/${existsCheck.book.slug}`);
                 return;
             }
 
@@ -65,11 +62,12 @@ const UploadForm = () => {
 
             const parsedPDF = await parsePDFFile(pdfFile);
 
-            if(parsedPDF.content.length === 0) {
+            if (parsedPDF.content.length === 0) {
                 toast.error("Failed to parse PDF. Please try again with a different file.");
                 return;
             }
 
+            // 1. Upload PDF via Server Action
             const pdfFormData = new FormData();
             pdfFormData.append('file', pdfFile);
             pdfFormData.append('filename', `${fileTitle}.pdf`);
@@ -78,26 +76,32 @@ const UploadForm = () => {
 
             let coverUrl: string;
 
-            if(data.coverImage) {
+            // 2. Upload Cover Image via Server Action (Fixes CORS)
+            if (data.coverImage) {
                 const coverFile = data.coverImage;
-                const uploadedCoverBlob = await upload(`${fileTitle}_cover.png`, coverFile, {
-                    access: 'public',
-                    handleUploadUrl: '/api/upload',
-                    contentType: coverFile.type
-                });
+                const coverFormData = new FormData();
+                coverFormData.append('file', coverFile);
+                coverFormData.append('filename', `${fileTitle}_cover.png`);
+
+                const uploadedCoverBlob = await uploadToBlob(coverFormData);
                 coverUrl = uploadedCoverBlob.url;
             } else {
-                const response = await fetch(parsedPDF.cover)
-                const blob = await response.blob();
-
-                const uploadedCoverBlob = await upload(`${fileTitle}_cover.png`, blob, {
-                    access: 'public',
-                    handleUploadUrl: '/api/upload',
-                    contentType: 'image/png'
+                // Handle generated cover from PDF if user didn't provide one
+                const response = await fetch('/api/upload', { 
+                    method: 'POST', 
+                    body: pdfFormData // Re-using current PDF data to generate/upload cover if needed
                 });
+                const blob = await response.blob();
+                
+                const genCoverFormData = new FormData();
+                genCoverFormData.append('file', blob);
+                genCoverFormData.append('filename', `${fileTitle}_cover.png`);
+
+                const uploadedCoverBlob = await uploadToBlob(genCoverFormData);
                 coverUrl = uploadedCoverBlob.url;
             }
 
+            // 3. Create the database record
             const book = await createBook({
                 clerkId: userId,
                 title: data.title,
@@ -109,7 +113,7 @@ const UploadForm = () => {
                 fileSize: pdfFile.size,
             });
 
-            if(!book.success) {
+            if (!book.success) {
                 toast.error(book.error as string || "Failed to create book");
                 if (book.isBillingError) {
                     router.push("/subscriptions");
@@ -117,25 +121,26 @@ const UploadForm = () => {
                 return;
             }
 
-            if(book.alreadyExists) {
+            if (book.alreadyExists) {
                 toast.info("Book with same title already exists.");
-                form.reset()
-                router.push(`/books/${book.data.slug}`)
+                form.reset();
+                router.push(`/books/${book.data.slug}`);
                 return;
             }
 
+            // 4. Save segments for synthesis
             const segments = await saveBookSegments(book.data._id, userId, parsedPDF.content);
 
-            if(!segments.success) {
+            if (!segments.success) {
                 toast.error("Failed to save book segments");
                 throw new Error("Failed to save book segments");
             }
 
             form.reset();
+            toast.success("Book uploaded successfully!");
             router.push('/');
         } catch (error) {
             console.error(error);
-
             toast.error("Failed to upload book. Please try again later.");
         } finally {
             setIsSubmitting(false);
@@ -151,7 +156,6 @@ const UploadForm = () => {
             <div className="new-book-wrapper">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        {/* 1. PDF File Upload */}
                         <FileUploader
                             control={form.control}
                             name="pdfFile"
@@ -163,7 +167,6 @@ const UploadForm = () => {
                             disabled={isSubmitting}
                         />
 
-                        {/* 2. Cover Image Upload */}
                         <FileUploader
                             control={form.control}
                             name="coverImage"
@@ -175,7 +178,6 @@ const UploadForm = () => {
                             disabled={isSubmitting}
                         />
 
-                        {/* 3. Title Input */}
                         <FormField
                             control={form.control}
                             name="title"
@@ -195,7 +197,6 @@ const UploadForm = () => {
                             )}
                         />
 
-                        {/* 4. Author Input */}
                         <FormField
                             control={form.control}
                             name="author"
@@ -215,7 +216,6 @@ const UploadForm = () => {
                             )}
                         />
 
-                        {/* 5. Voice Selector */}
                         <FormField
                             control={form.control}
                             name="persona"
@@ -234,9 +234,8 @@ const UploadForm = () => {
                             )}
                         />
 
-                        {/* 6. Submit Button */}
                         <Button type="submit" className="form-btn" disabled={isSubmitting}>
-                            Begin Synthesis
+                            {isSubmitting ? "Processing..." : "Begin Synthesis"}
                         </Button>
                     </form>
                 </Form>
