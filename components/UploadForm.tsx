@@ -41,111 +41,69 @@ const UploadForm = () => {
     });
 
     const onSubmit = async (data: BookUploadFormValues) => {
-        if (!userId) {
-            return toast.error("Please login to upload books");
+    if (!userId) return toast.error("Please login to upload books");
+    setIsSubmitting(true);
+
+    try {
+        // 1. Check if book exists
+        const existsCheck = await checkBookExists(data.title);
+        if (existsCheck.exists) {
+            toast.info("Book already exists.");
+            return router.push(`/books/${existsCheck.book.slug}`);
         }
 
-        setIsSubmitting(true);
+        const fileTitle = data.title.replace(/\s+/g, '-').toLowerCase();
 
-        try {
-            const existsCheck = await checkBookExists(data.title);
+        // 2. Parse PDF for content
+        const parsedPDF = await parsePDFFile(data.pdfFile);
 
-            if (existsCheck.exists && existsCheck.book) {
-                toast.info("Book with same title already exists.");
-                form.reset();
-                router.push(`/books/${existsCheck.book.slug}`);
-                return;
-            }
+        // 3. Upload PDF
+        const pdfData = new FormData();
+        pdfData.append('file', data.pdfFile);
+        pdfData.append('filename', `${fileTitle}.pdf`);
+        const uploadedPdf = await uploadToBlob(pdfData);
 
-            const fileTitle = data.title.replace(/\s+/g, '-').toLowerCase();
-            const pdfFile = data.pdfFile;
+        // 4. Handle Cover (Manual or Auto)
+        let coverUrl = "";
+        const coverData = new FormData();
+        
+        if (data.coverImage) {
+            coverData.append('file', data.coverImage);
+        } else {
+            // If no cover, we fetch the auto-generated one from your API
+            const res = await fetch('/api/upload', { method: 'POST', body: pdfData });
+            const blob = await res.blob();
+            coverData.append('file', blob);
+        }
+        
+        coverData.append('filename', `${fileTitle}_cover.png`);
+        const uploadedCover = await uploadToBlob(coverData);
+        coverUrl = uploadedCover.url;
 
-            const parsedPDF = await parsePDFFile(pdfFile);
+        // 5. Create Book Entry
+        const book = await createBook({
+            clerkId: userId,
+            title: data.title,
+            author: data.author,
+            persona: data.persona,
+            fileURL: uploadedPdf.url,
+            fileBlobKey: uploadedPdf.pathname,
+            coverURL: coverUrl,
+            fileSize: data.pdfFile.size,
+        });
 
-            if (parsedPDF.content.length === 0) {
-                toast.error("Failed to parse PDF. Please try again with a different file.");
-                return;
-            }
-
-            // 1. Upload PDF via Server Action
-            const pdfFormData = new FormData();
-            pdfFormData.append('file', pdfFile);
-            pdfFormData.append('filename', `${fileTitle}.pdf`);
-
-            const uploadedPdfBlob = await uploadToBlob(pdfFormData);
-
-            let coverUrl: string;
-
-            // 2. Upload Cover Image via Server Action (Fixes CORS)
-            if (data.coverImage) {
-                const coverFile = data.coverImage;
-                const coverFormData = new FormData();
-                coverFormData.append('file', coverFile);
-                coverFormData.append('filename', `${fileTitle}_cover.png`);
-
-                const uploadedCoverBlob = await uploadToBlob(coverFormData);
-                coverUrl = uploadedCoverBlob.url;
-            } else {
-                // Handle generated cover from PDF if user didn't provide one
-                const response = await fetch('/api/upload', { 
-                    method: 'POST', 
-                    body: pdfFormData // Re-using current PDF data to generate/upload cover if needed
-                });
-                const blob = await response.blob();
-                
-                const genCoverFormData = new FormData();
-                genCoverFormData.append('file', blob);
-                genCoverFormData.append('filename', `${fileTitle}_cover.png`);
-
-                const uploadedCoverBlob = await uploadToBlob(genCoverFormData);
-                coverUrl = uploadedCoverBlob.url;
-            }
-
-            // 3. Create the database record
-            const book = await createBook({
-                clerkId: userId,
-                title: data.title,
-                author: data.author,
-                persona: data.persona,
-                fileURL: uploadedPdfBlob.url,
-                fileBlobKey: uploadedPdfBlob.pathname,
-                coverURL: coverUrl,
-                fileSize: pdfFile.size,
-            });
-
-            if (!book.success) {
-                toast.error(book.error as string || "Failed to create book");
-                if (book.isBillingError) {
-                    router.push("/subscriptions");
-                }
-                return;
-            }
-
-            if (book.alreadyExists) {
-                toast.info("Book with same title already exists.");
-                form.reset();
-                router.push(`/books/${book.data.slug}`);
-                return;
-            }
-
-            // 4. Save segments for synthesis
-            const segments = await saveBookSegments(book.data._id, userId, parsedPDF.content);
-
-            if (!segments.success) {
-                toast.error("Failed to save book segments");
-                throw new Error("Failed to save book segments");
-            }
-
-            form.reset();
-            toast.success("Book uploaded successfully!");
+        if (book.success) {
+            await saveBookSegments(book.data._id, userId, parsedPDF.content);
+            toast.success("Success!");
             router.push('/');
-        } catch (error) {
-            console.error(error);
-            toast.error("Failed to upload book. Please try again later.");
-        } finally {
-            setIsSubmitting(false);
         }
-    };
+    } catch (error) {
+        console.error("Upload Error:", error);
+        toast.error("Upload failed. Check Vercel logs.");
+    } finally {
+        setIsSubmitting(false);
+    }
+};
 
     if (!isMounted) return null;
 
