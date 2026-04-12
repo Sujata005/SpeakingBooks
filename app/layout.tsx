@@ -20,7 +20,7 @@ const monaSans = Mona_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Bookified - Chat with your books",
+  title: "Chatting Books - AI Conversations with Your PDFs",
   description: "Transform your books into interactive AI conversations. Upload PDFs, and chat with your books using voice.",
 };
 
