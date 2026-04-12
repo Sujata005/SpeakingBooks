@@ -19,7 +19,7 @@ import {checkBookExists, createBook, saveBookSegments} from "@/lib/actions/book.
 import {useRouter} from "next/navigation";
 import {parsePDFFile} from "@/lib/utils";
 import {upload} from "@vercel/blob/client";
-
+import { uploadToBlob } from "@/lib/actions/book.actions";
 const UploadForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
@@ -70,11 +70,11 @@ const UploadForm = () => {
                 return;
             }
 
-            const uploadedPdfBlob = await upload(fileTitle, pdfFile, {
-                access: 'public',
-                handleUploadUrl: '/api/upload',
-                contentType: 'application/pdf'
-            });
+            const pdfFormData = new FormData();
+            pdfFormData.append('file', pdfFile);
+            pdfFormData.append('filename', `${fileTitle}.pdf`);
+
+            const uploadedPdfBlob = await uploadToBlob(pdfFormData);
 
             let coverUrl: string;
 

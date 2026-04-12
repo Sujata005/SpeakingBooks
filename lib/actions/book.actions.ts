@@ -7,7 +7,19 @@ import Book from "@/database/models/book.model";
 import BookSegment from "@/database/models/book-segment.model";
 import mongoose from "mongoose";
 import {getUserPlan} from "@/lib/subscription.server";
+import { put } from '@vercel/blob';
 
+export const uploadToBlob = async (formData: FormData) => {
+  const file = formData.get('file') as File;
+  const filename = formData.get('filename') as string;
+
+  // This runs on the server, so it has access to BLOB_READ_WRITE_TOKEN
+  const blob = await put(filename, file, {
+    access: 'public',
+  });
+
+  return blob;
+};
 export const getAllBooks = async (search?: string) => {
     try {
         await connectToDatabase();
