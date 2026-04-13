@@ -10,6 +10,7 @@ const BookSegmentSchema = new Schema<IBookSegment>({
     wordCount: { type: Number, required: true },
 }, { timestamps: true });
 
+// this is to conferm that instead to reading all the book it goes to the particular segment and div deeper
 BookSegmentSchema.index({ bookId: 1, segmentIndex: 1 }, { unique: true });
 BookSegmentSchema.index({ bookId: 1, pageNumber: 1 });
 

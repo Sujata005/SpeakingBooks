@@ -1,12 +1,14 @@
 'use server';
-
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+import { getUserPlan } from "@/lib/subscription.server";
+import { PLAN_LIMITS } from "@/lib/subscription-constants";
 import {CreateBook, TextSegment} from "@/types";
 import {connectToDatabase} from "@/database/mongoose";
 import {escapeRegex, generateSlug, serializeData} from "@/lib/utils";
 import Book from "@/database/models/book.model";
 import BookSegment from "@/database/models/book-segment.model";
 import mongoose from "mongoose";
-import {getUserPlan} from "@/lib/subscription.server";
 import { put } from '@vercel/blob';
 
 export const uploadToBlob = async (formData: FormData) => {
@@ -80,62 +82,54 @@ export const checkBookExists = async (title: string) => {
 export const createBook = async (data: CreateBook) => {
     try {
         await connectToDatabase();
-
         const slug = generateSlug(data.title);
 
-        const existingBook = await Book.findOne({slug}).lean();
-
-        if(existingBook) {
+        const existingBook = await Book.findOne({ slug }).lean();
+        if (existingBook) {
             return {
                 success: true,
                 data: serializeData(existingBook),
                 alreadyExists: true,
-            }
+            };
         }
 
-        // Todo: Check subscription limits before creating a book
-        const { getUserPlan } = await import("@/lib/subscription.server");
-        const { PLAN_LIMITS } = await import("@/lib/subscription-constants");
-
-        const { auth } = await import("@clerk/nextjs/server");
+        // 2. Auth check using the top-level import
         const { userId } = await auth();
-
         if (!userId || userId !== data.clerkId) {
             return { success: false, error: "Unauthorized" };
         }
 
         const plan = await getUserPlan();
-        const limits = PLAN_LIMITS[plan];
+        const limits = PLAN_LIMITS[plan as keyof typeof PLAN_LIMITS];
 
         const bookCount = await Book.countDocuments({ clerkId: userId });
 
         if (bookCount >= limits.maxBooks) {
-            const { revalidatePath } = await import("next/cache");
             revalidatePath("/");
-
             return {
                 success: false,
-                error: `You have reached the maximum number of books allowed for your ${plan} plan (${limits.maxBooks}). Please upgrade to add more books.`,
+                error: `Limit reached (${limits.maxBooks} books). Please upgrade.`,
                 isBillingError: true,
             };
         }
 
-        const book = await Book.create({...data, clerkId: userId, slug, totalSegments: 0});
+        const book = await Book.create({ ...data, clerkId: userId, slug, totalSegments: 0 });
 
         return {
             success: true,
             data: serializeData(book),
-        }
-    } catch (e) {
-        console.error('Error creating a book', e);
+        };
 
+    } catch (e: any) {
+        console.error('Error creating a book:', e);
+        
+        // 3. FIXED: Return a STRING, not the Error object 'e'
         return {
             success: false,
-            error: e,
-        }
+            error: e.message || "An unexpected error occurred", 
+        };
     }
 }
-
 export const getBookBySlug = async (slug: string) => {
     try {
         await connectToDatabase();

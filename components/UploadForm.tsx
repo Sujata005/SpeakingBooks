@@ -91,7 +91,10 @@ const UploadForm = () => {
             coverURL: coverUrl,
             fileSize: data.pdfFile.size,
         });
-
+        if (!result.success) {
+            setIsSubmitting(false); // Stop the loading overlay
+            return toast.error(result.error); // Show the specific server error (like plan limits)
+        }
         if (book.success) {
             await saveBookSegments(book.data._id, userId, parsedPDF.content);
             toast.success("Success!");
