@@ -50,78 +50,68 @@
 :root {
   --radius: 0.625rem;
 
-  /* Warm Literary Backgrounds */
-  --bg-primary: #f8f4e9;
-  --bg-secondary: #f3e4c7;
-  --bg-tertiary: #fff6e5;
+  /* NEW: Soft Sky Blue Backgrounds */
+  --bg-primary: #f0f7ff;      /* Very light sky blue instead of cream */
+  --bg-secondary: #e0f0fe;    /* Light powder blue instead of tan */
+  --bg-tertiary: #f8fbff;     /* Almost white sky tint */
   --bg-card: #ffffff;
 
-  /* Warm Text Colors */
-  --text-primary: #212a3b;
-  --text-secondary: #3d485e;
-  --text-muted: #222c37;
+  /* Refined Text Colors (Dark Blue-Grey) */
+  --text-primary: #1e293b;    /* Slate 800 */
+  --text-secondary: #475569;  /* Slate 600 */
+  --text-muted: #64748b;
 
-  /* Warm Accent */
-  --accent-warm: #212a3b;
-  --accent-warm-hover: #3d485e;
-  --accent-light: #fff6e5;
+  /* Sky Blue Accents */
+  --accent-warm: #3b82f6;     /* Bright Blue instead of Dark Navy */
+  --accent-warm-hover: #2563eb;
+  --accent-light: #eff6ff;
 
   /* Semantic Colors */
-  --success: #7c9a82;
-  --warning: #d4a853;
+  --success: #10b981;
+  --warning: #f59e0b;
 
-  /* Borders */
-  --border-subtle: rgba(33, 42, 59, 0.12);
-  --border-medium: rgba(33, 42, 59, 0.2);
+  /* Borders (Tinted Blue) */
+  --border-subtle: rgba(59, 130, 246, 0.1);
+  --border-medium: rgba(59, 130, 246, 0.2);
 
-  /* Soft Shadows */
-  --shadow-soft-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
-  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-soft-md: 0 2px 4px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.08);
-  --shadow-soft-lg: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.12);
-  --shadow-book: 0px 10px 30px 0px rgba(0, 0, 0, 0.1);
+  /* Soft Shadows (Blue-tinted for softness) */
+  --shadow-soft-sm: 0 1px 2px rgba(30, 58, 138, 0.04);
+  --shadow-soft: 0 4px 12px rgba(30, 58, 138, 0.08);
+  --shadow-book: 0px 10px 30px 0px rgba(30, 58, 138, 0.15);
 
-  /* Base theme colors */
-  --background: #f8f4e9;
-  --foreground: #212a3b;
+  /* Base theme colors - UPDATED FOR POWDER BLUE */
+  --background: #f0f7ff;
+  --foreground: #1e293b;
   --card: #ffffff;
-  --card-foreground: #212a3b;
+  --card-foreground: #1e293b;
   --popover: #ffffff;
-  --popover-foreground: #212a3b;
-  --primary: #212a3b;
+  --popover-foreground: #1e293b;
+  --primary: #334155;          /* 2 Shades Darker Slate Blue for contrast */
   --primary-foreground: #ffffff;
-  --secondary: #f3e4c7;
-  --secondary-foreground: #212a3b;
-  --muted: #f3e4c7;
-  --muted-foreground: #3d485e;
-  --accent: #fff6e5;
-  --accent-foreground: #212a3b;
+  --secondary: #e0f0fe;
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #e0f2fe;
+  --accent-foreground: #0369a1;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: rgba(33, 42, 59, 0.12);
-  --input: rgba(33, 42, 59, 0.12);
-  --ring: #212a3b;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #3b82f6;
+  
   --sidebar: #ffffff;
-  --sidebar-foreground: #212a3b;
-  --sidebar-primary: #212a3b;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f3e4c7;
-  --sidebar-accent-foreground: #212a3b;
-  --sidebar-border: rgba(33, 42, 59, 0.12);
-  --sidebar-ring: #212a3b;
+  --sidebar-foreground: #1e293b;
+  --sidebar-primary: #3b82f6;
+  --sidebar-accent: #f0f7ff;
+  --sidebar-border: #e2e8f0;
 
   /* Brand color */
-  --blue: #212a3b;
+  --blue: #3b82f6;
 
-  /* Brand accent (warm brown) - for active states and CTAs */
-  --color-brand: #663820;
-  --color-brand-hover: #7a4528;
+  /* Updated Brand Accents (Replacing the Brown #663820) */
+  --color-brand: #0369a1;       /* Deep Ocean Blue */
+  --color-brand-hover: #075985;
 
-  /* Layout dimensions */
   --navbar-height: 74px;
 }
 
@@ -212,7 +202,7 @@
     @apply relative z-20 flex flex-col justify-center items-center p-7;
   }
   .form-btn {
-    @apply !w-full h-14 rounded-[10px] bg-[#663820] cursor-pointer hover:bg-[#7a4528] text-xl text-white font-bold transition-colors;
+    @apply !w-full h-14 rounded-[10px] bg-[#0369a1] cursor-pointer hover:hover:bg-[#075985] text-xl text-white font-bold transition-colors;
     font-family: 'IBM Plex Serif', serif;
   }
   .loading-wrapper {
@@ -384,10 +374,10 @@
      VAPI CONTROLS COMPONENT
      =========================================== */
   .vapi-header-card {
-    @apply flex items-center gap-6 bg-[#f3e4c7] rounded-[14px] p-6 relative overflow-hidden;
+    @apply flex items-center gap-6 bg-[#e0f0fe] rounded-[14px] p-6 relative overflow-hidden;
   }
   .vapi-compact-header {
-    @apply flex items-center gap-2 bg-[#f3e4c7] rounded-[14px] p-3 mb-3;
+    @apply flex items-center gap-2 bg-[#e0f0fe] rounded-[14px] p-3 mb-3;
   }
   .vapi-transcript-wrapper {
     @apply min-h-[400px] max-h-[60vh] flex flex-col;
@@ -595,7 +585,7 @@
     @apply max-w-[80%] px-6 py-4 text-base font-medium leading-7 rounded-2xl;
   }
   .transcript-bubble-user {
-    @apply bg-[#663820] text-white rounded-br-sm;
+    @apply bg-[#0369a1] text-white rounded-br-sm;
   }
   .transcript-bubble-assistant {
     @apply bg-[#f3e4c7] text-[#212a3b] rounded-bl-sm;
