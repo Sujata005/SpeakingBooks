@@ -17,7 +17,8 @@ export const uploadToBlob = async (formData: FormData) => {
 
   // This runs on the server, so it has access to BLOB_READ_WRITE_TOKEN
   const blob = await put(filename, file, {
-    access: 'private',
+    access: 'public',
+    addRandomSuffix: true,
   });
 
   return blob;
