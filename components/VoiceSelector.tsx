@@ -37,9 +37,9 @@ const VoiceSelector = ({ value, onChange, disabled, className }: VoiceSelectorPr
                                         <div className="flex items-center gap-2">
                                             <div className={cn(
                                                 "w-4 h-4 rounded-full border flex items-center justify-center",
-                                                isSelected ? "border-[#663820]" : "border-gray-300"
+                                                isSelected ? "border-[#3b82f6]" : "border-gray-300"
                                             )}>
-                                                {isSelected && <div className="w-2 h-2 rounded-full bg-[#663820]" />}
+                                                {isSelected && <div className="w-2 h-2 rounded-full bg-[#3b82f6]" />}
                                             </div>
                                             <span className="font-bold text-[#212a3b]">{voice.name}</span>
                                         </div>
@@ -74,9 +74,9 @@ const VoiceSelector = ({ value, onChange, disabled, className }: VoiceSelectorPr
                                         <div className="flex items-center gap-2">
                                             <div className={cn(
                                                 "w-4 h-4 rounded-full border flex items-center justify-center",
-                                                isSelected ? "border-[#663820]" : "border-gray-300"
+                                                isSelected ? "border-[#3b82f6]" : "border-gray-300"
                                             )}>
-                                                {isSelected && <div className="w-2 h-2 rounded-full bg-[#663820]" />}
+                                                {isSelected && <div className="w-2 h-2 rounded-full bg-[#3b82f6]" />}
                                             </div>
                                             <span className="font-bold text-[#212a3b]">{voice.name}</span>
                                         </div>
