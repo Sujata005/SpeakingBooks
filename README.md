@@ -43,7 +43,7 @@ If you prefer visual learning, this is the perfect resource for you. Follow our 
 
 ## <a name="introduction">✨ Introduction</a>
 
-Bookified is an AI-powered platform that lets you have real-time voice conversations with your books. Built with Next.js 16, Vapi, and MongoDB, it transforms PDFs into interactive entities using natural voice synthesis. Choose from custom ElevenLabs personas to chat with your library, request summaries, and view live transcripts—all wrapped in a sleek Shadcn UI with Clerk authentication. 
+Speaking Books is an AI-powered platform that lets you have real-time voice conversations with your books. Built with Next.js 16, Vapi, and MongoDB, it transforms PDFs into interactive entities using natural voice synthesis. Choose from custom ElevenLabs personas to chat with your library, request summaries, and view live transcripts—all wrapped in a sleek Shadcn UI with Clerk authentication. 
 
 If you're getting started and need assistance or face any bugs, join our active Discord community with over **50k+** members. It's a place where people help each other out.
 

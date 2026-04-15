@@ -38,7 +38,7 @@ const HeroSection = () => {
                             alt="Vintage books and a globe"
                             width={300}
                             height={300}
-                            className="object-contain"
+                            className="object-contain grayscale brightness-125 contrast-125 saturate-0 opacity-70"
                         />
                     </div>
 
