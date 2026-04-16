@@ -1,175 +1,96 @@
-<div align="center">
-  <br />
-    <a href="https://youtu.be/NiwawEe92Co" target="_blank">
-      <img src="public/readme/readme-hero-new.webp" alt="Project Banner">
-    </a>
-  <br />
+# 📚 Speaking Books – AI-Powered PDF Conversations
 
-  <div>
-<img src="https://img.shields.io/badge/-Next.js_16-000000?style=for-the-badge&logo=Next.js&logoColor=white" />
-<img src="https://img.shields.io/badge/-ElevenLabs-FFFFFF?style=for-the-badge&logo=ElevenLabs&logoColor=black" />
-<img src="https://img.shields.io/badge/-Vapi-62F6B5?style=for-the-badge&logo=Vapi&logoColor=black" />
-<img src="https://img.shields.io/badge/-Clerk-6C47FF?style=for-the-badge&logo=Clerk&logoColor=white" /><br/>
-<img src="https://img.shields.io/badge/-MongoDB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white" />
-<img src="https://img.shields.io/badge/-Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white" />
-<img src="https://img.shields.io/badge/-Tailwind-06B6D4?style=for-the-badge&logo=Tailwind-CSS&logoColor=white" />
-<img src="https://img.shields.io/badge/-Shadcn/UI-000000?style=for-the-badge&logo=shadcnui&logoColor=white" />
+**Speaking Books** is a full-stack SaaS platform that allows users to upload PDF books and engage in real-time, high-fidelity voice conversations with them. By leveraging advanced AI orchestration, the app "reads" your books and acts as an interactive mentor, answering questions based on the actual text of the PDF.
 
-  </div>
+🚀 Visit Live Site
+## ✨ Features
+-  🎙️ **Real-time Voice Chat**: Hands-free interaction using Vapi for natural, low-latency AI voice conversations.
 
-  <h3 align="center">AI Book Companion | Vapi, ElevenLabs</h3>
+-   📄 **Smart PDF Processing**: Automatic extraction and segmentation of PDF content for precise AI context.
 
-   <div align="center">
-     Build this project step by step with our detailed tutorial on <a href="https://www.youtube.com/watch?v=XUkNR-JfHwo" target="_blank"><b>JavaScript Mastery</b></a> YouTube. Join the JSM family!
-    </div>
-</div>
+-   🖼️ **Custom Library UI**: A specialized dashboard to manage your books, featuring dynamic book cover generation and storage.
 
-## 📋 <a name="table">Table of Contents</a>
+-   💳 **Subscription Management**: Custom-built pricing tiers (Free & Pro) to manage user access and features.
 
-1. ✨ [Introduction](#introduction)
-2. ⚙️ [Tech Stack](#tech-stack)
-3. 🔋 [Features](#features)
-4. 🤸 [Quick Start](#quick-start)
-5. 🔗 [Assets](#links)
-6. 🚀 [More](#more)
+-   🔐 **Secure Authentication**: User sign-in and profile management powered by Clerk.
 
-## 🚨 Tutorial
+-   📱 **Fully Responsive**: Optimized experience across mobile, tablet, and desktop devices.
 
-This repository contains the code corresponding to an in-depth tutorial available on our YouTube channel, <a href="https://www.youtube.com/@javascriptmastery/videos" target="_blank"><b>JavaScript Mastery</b></a>.
+## 🛠️ Tech Stack
+- **Framework**: Next.js 15 (App Router)
 
-If you prefer visual learning, this is the perfect resource for you. Follow our tutorial to learn how to build projects like these step-by-step in a beginner-friendly manner!
+- **Styling**: Tailwind CSS & Shadcn UI
 
-<a href="https://youtu.be/NiwawEe92Co" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/1736fca5-a031-4854-8c09-bc110e3bc16d" /></a>
+- **Database**: MongoDB (Mongoose)
 
-## <a name="introduction">✨ Introduction</a>
+- **Auth**: Clerk
 
-Speaking Books is an AI-powered platform that lets you have real-time voice conversations with your books. Built with Next.js 16, Vapi, and MongoDB, it transforms PDFs into interactive entities using natural voice synthesis. Choose from custom ElevenLabs personas to chat with your library, request summaries, and view live transcripts—all wrapped in a sleek Shadcn UI with Clerk authentication. 
+- **AI/Voice**: Vapi
 
-If you're getting started and need assistance or face any bugs, join our active Discord community with over **50k+** members. It's a place where people help each other out.
+- **Storage**: Vercel Blob
 
-<a href="https://discord.com/invite/n6EdbFJ" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/618f4872-1e10-42da-8213-1d69e486d02e" /></a>
+- **Embeddings**: Google Gemini AI
 
-## <a name="tech-stack">⚙️ Tech Stack</a>
-
-- **[Clerk](https://jsm.dev/books-clerk)** is a comprehensive user management and authentication platform. It provides secure, pre-built components for email and social logins, enabling seamless session management and protected routes with minimal configuration.
-
-- **[CodeRabbit](https://jsm.dev/books-coderabbit)** is an AI-powered code review platform that provides contextual, line-by-line feedback on pull requests. It automates the review process by identifying bugs, suggesting optimizations, and ensuring coding standards are met, significantly reducing the manual effort for developers and improving code quality.
-
-- **[ElevenLabs](https://elevenlabs.io/docs)** is an advanced AI audio platform providing lifelike text-to-speech. It powers the voice previews in Bookified, allowing users to hear and select from a variety of natural-sounding AI personas before starting a conversation.
-
-- **[MongoDB](https://www.mongodb.com/docs/)** is a flexible, document-based NoSQL database designed for scalability and developer ease. Combined with Mongoose, it serves as the core storage for user libraries, book metadata, and conversation transcripts.
-
-- **[Next.js](https://nextjs.org/docs)** is a powerful React framework for building full-stack web applications. It handles the core application logic, server-side rendering, and API routes, enabling a fast and responsive interface for the Bookified platform.
-
-- **[Shadcn UI](https://ui.shadcn.com/)** is a collection of re-usable, accessible components built with Tailwind CSS and Radix UI. It allows for the creation of a clean, modular, and professional-grade user interface that is easy to customize and theme.
-
-- **[TypeScript](https://www.typescriptlang.org/)** is a superset of JavaScript that adds static typing, providing better tooling, code quality, and error detection. It ensures the application remains maintainable and robust as the codebase scales.
-
-- **[Vapi](https://jsm.dev/books-vapi)** is a specialized Voice AI platform that enables real-time, low-latency conversational audio. It serves as the primary engine for Bookified, allowing users to have seamless, back-and-forth verbal interactions with their uploaded content.
-
-## <a name="features">🔋 Features</a>
-
-👉 **PDF Upload & Ingestion**: Seamlessly upload PDF books with automated text extraction, intelligent chunking, and high-dimensional embeddings for precise context retrieval.
-
-👉 **Voice-First Conversations**: Engage in natural, real-time voice dialogues with your uploaded books, allowing you to ask questions or explore complex concepts verbally via Vapi.
-
-👉 **AI Voice Personas**: Choose from a variety of distinct AI personalities and hear instant high-fidelity previews powered by ElevenLabs to find the perfect reading companion.
-
-👉 **Smart Summaries & Insights**: Quickly extract the essence of any chapter or request deep-dive summaries, making long-form content more accessible and digestible.
-
-👉 **Session Transcripts**: Keep a complete record of every vocal interaction with auto-generated text transcripts, ensuring you never lose a key insight from your discussions.
-
-👉 **Library Management**: Effortlessly organize and search through your personal uploads or the global collection with a high-performance search interface.
-
-👉 **Auth & Subscription**: Secure user access via email and social login, paired with a robust billing system to manage premium features and platform subscriptions.
-
-And many more, including code architecture and reusability.
-
-## <a name="quick-start">🤸 Quick Start</a>
-
-Follow these steps to set up the project locally on your machine.
-
-**Prerequisites**
-
-Make sure you have the following installed on your machine:
-
-- [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
-
-**Cloning the Repository**
-
-```bash
-git clone https://github.com/adrianhajdin/jsm_bookified.git
-cd jsm_bookified
-```
+## 🚀 Getting Started
+- **Prerequisites**
+Ensure you have Node.js 18+ installed on your machine.
 
 **Installation**
+1. Clone the repository:
+``` git clone https://github.com/Sujata005/SpeakingBooks.git 
+cd SpeakingBooks```
 
-Install the project dependencies using npm:
+2. Install dependencies:
+```npm install```
 
-```bash
-npm install
+3. Set up environment variables:
+Create a ```.env.local``` file in the root directory and add the following keys:
+
+Code snippet
 ```
+# App
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
-**Set Up Environment Variables**
-
-Create a new file named `.env` in the root of your project and add the following content:
-
-```env
-NODE_ENV='development'
-NEXT_PUBLIC_BASE_URL=
-
-# CLERK
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
+# Clerk Auth
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publishable_key
+CLERK_SECRET_KEY=your_secret_key
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
-NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
 
-# VERCEL BLOB
-BLOB_READ_WRITE_TOKEN=
+# Storage & Database
+BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
+MONGODB_URI=your_mongodb_connection_string
 
-# MONGODB
-MONGODB_URI=
+# Vapi (Voice AI)
+NEXT_PUBLIC_VAPI_API_KEY=your_vapi_public_key
+VAPI_SERVER_SECRET=your_vapi_secret
+NEXT_PUBLIC_VAPI_ASSISTANT_ID=your_assistant_id
 
-# VAPI
-NEXT_PUBLIC_VAPI_API_KEY=
-VAPI_SERVER_SECRET=
-
-# Google Gemini API for embeddings
-GOOGLE_GEMINI_API_KEY=
-
-# ELEVENLABS
-ELEVENLABS_API_KEY=
+# Google Gemini (Embeddings)
+GOOGLE_GEMINI_API_KEY=your_gemini_key
 ```
+4. Run the development server:
+```npm run dev ```
 
-Replace the placeholder values with your real credentials. You can get these by signing up at: [**Clerk**](https://clerk.com), [**Vercel**](https://vercel.com), [**MongoDB**](https://www.mongodb.com), [**Vapi**](https://vapi.ai), [**Google AI Studio**](https://aistudio.google.com), [**ElevenLabs**](https://elevenlabs.io).
+Open ```http://localhost:3000``` to see the result.
 
-**Running the Project**
+# 📸 Screenshots
+Library Page: View all your uploaded books with generated covers.
 
-```bash
-npm run dev
-```
+Add New Book: Seamlessly upload PDFs and enter metadata.
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
+Voice Interface: Engage in real-time conversation with the selected book persona.
 
-## <a name="links">🔗 Assets</a>
+📝 Configuration Note
+If you encounter a 413 Payload Too Large error when uploading large PDFs, update your next.config.mjs to increase the server action limit:
 
-Assets and snippets used in the project can be found in the **[video kit](https://jsmastery.com/video-kit/8127ec28-61db-4295-a85b-c649df6ee408)**.
+JavaScript
+experimental: {
+  serverActions: {
+    bodySizeLimit: '100mb',
+  },
+},
+🤝 Contributing
+This project was built as part of a technical journey to master AI engineering in 2026. Feel free to fork the repo and submit pull requests for any features or bug fixes.
 
-<a href="https://jsmastery.com/video-kit/8127ec28-61db-4295-a85b-c649df6ee408" target="_blank">
-  <img src="public/readme/readme-videokit.webp" alt="Video Kit Banner">
-</a>
-
-## <a name="more">🚀 More</a>
-
-**Advance your skills with Next.js Pro Course**
-
-Enjoyed creating this project? Dive deeper into our PRO courses for a richer learning adventure. They're packed with
-detailed explanations, cool features, and exercises to boost your skills. Give it a go!
-
-<a href="https://jsm.dev/books-jsm" target="_blank">
-  <img src="public/readme/readme-jsmpro.webp" alt="Project Banner">
-</a>
+Developed with ❤️ by Sujata Bijalwan
