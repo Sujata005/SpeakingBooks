@@ -13,8 +13,7 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'bt29vnf5da1kwvwv.public.blob.vercel-storage.com', // Good to have for fallback
-                port: '',
+                hostname: '**.blob.vercel-storage.com', // This wildcard covers ALL your Vercel stores
                 pathname: '/**',
             },
             {
