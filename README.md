@@ -81,7 +81,7 @@ Add New Book: Seamlessly upload PDFs and enter metadata.
 
 Voice Interface: Engage in real-time conversation with the selected book persona.
 
-📝 Configuration Note
+# 📝 Configuration Note
 If you encounter a 413 Payload Too Large error when uploading large PDFs, update your next.config.mjs to increase the server action limit:
 
 JavaScript
