@@ -52,22 +52,22 @@ Code snippet
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
 # Clerk Auth
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publishable_key
-CLERK_SECRET_KEY=your_secret_key
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+- NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publishable_key
+- CLERK_SECRET_KEY=your_secret_key
+- NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+- NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 
 # Storage & Database
-BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
-MONGODB_URI=your_mongodb_connection_string
+- BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
+- MONGODB_URI=your_mongodb_connection_string
 
 # Vapi (Voice AI)
-NEXT_PUBLIC_VAPI_API_KEY=your_vapi_public_key
-VAPI_SERVER_SECRET=your_vapi_secret
-NEXT_PUBLIC_VAPI_ASSISTANT_ID=your_assistant_id
+- NEXT_PUBLIC_VAPI_API_KEY=your_vapi_public_key
+- VAPI_SERVER_SECRET=your_vapi_secret
+- NEXT_PUBLIC_VAPI_ASSISTANT_ID=your_assistant_id
 
 # Google Gemini (Embeddings)
-GOOGLE_GEMINI_API_KEY=your_gemini_key
+- GOOGLE_GEMINI_API_KEY=your_gemini_key
 ```
 4. Run the development server:
 ```npm run dev ```
